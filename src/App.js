@@ -1,25 +1,25 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import { Container } from "@mui/material";
+import Title from "./compontents/Title.js";
+import SelectHoge from "./compontents/SelectHoge.js"
+import ShowResult from "./compontents/ShowResult.js"
 
-function App() {
+const App = () => {
+  const [result, setResult] = useState()
+  const handleChange = (e) => {
+    fetch(`https://api.try-api.anabanted.com/item/${e.target.value}`)
+    .then(res => res.json())
+    .then(data => {
+      setResult(data.value)
+    })
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Container maxWidth="xs">
+      <Title />
+      <SelectHoge handleChange={handleChange}/>
+      {result && <ShowResult result={result} />}
+    </Container>
   );
-}
+};
 
 export default App;
